@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{%block title %} Attendance Record {% endblock %}
+{% block content %}
+  <h1 class="text-center mb-3">View Attendance</h1>
+  <table class="table table-striped">
+    <thead>
+      <br/>
+      <tr>
+        <th>Name</th>
+        <th>Roll Number</th>
+        <th>Attended</th>
+        <th>Missed</th>
+        <th>Percentage</th>
+        <th>Delete Entry</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for student in attendance_data %}
+        <tr>
+          <td>{{ student.name }}</td>
+          <td>{{ student.roll_number }}</td>
+          <td>{{ student.attended }}</td>
+          <td>{{ student.missed }}</td>
+          <td>{{ "{:.2f}%".format(student.percentage) }}</td>
+          <td>
+            <form action="/delete-student/{{ student.id }}" method="post" onsubmit="return confirm('Are you sure you want to delete this student?');">
+              <input type="hidden" name="_method" value="DELETE">
+              <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
